@@ -34,41 +34,6 @@ let create_picture id h tags =
   } in
   res;;
 
-let picture1 = create_picture 1 true ["cat";"dog";"selfi";"garden";"tomato"];;
-let picture2 = create_picture 2 true ["selfi";"garden";"horse";"computer"];;
-let picture3 = create_picture 3 false ["selfi";"garden";"horse";"computer"];;
-let picture4 = create_picture 4 false ["sport";"flower";"horse";"food"];;
-let picture5 = create_picture 5 false ["desk";"sun";"horse";"nature"];;
-let picture6 = create_picture 6 false ["sun";"garden";"food";"computer"];;
-let empty_picture = create_picture (-1) false [];; (*image vide pour mettre avec une image horizontale
-   ou avec une ilage verticale seul dans une slide*)
-
-
-   let slide1 =
-  {
-    content = (picture1, empty_picture);
-    h = true;
-  };;
-
-let slide2 =
-  {
-    content = (picture2, empty_picture);
-    h = true;
-  };;
-
-let slide3 =
-  {
-    content = (picture3, picture4);
-    h = false;
-  };;
-
-let slide4 =
-  {
-    content = (picture5,picture6);
-    h = false;
-  };;
-
-
 let intersect slide1 slide2 =
   (*retourne la liste des tags commun a 2 slides et leurs nombre sous forme d'un coupe (list_tag, nombre_tag)*)
   let res = ref [] in
@@ -114,9 +79,6 @@ let score slide1 slide2 =
   let nb_tag_slide1 = picture1.nb_tags + picture2.nb_tags in
   let nb_tag_slide2 = picture3.nb_tags + picture4.nb_tags in
   min (min (nb_tag_slide1 - nb_common) (nb_common)) (nb_tag_slide2 - nb_common);;
-
-
-let test = [|picture1;picture2;picture3;picture4;picture5;picture6|];;
 
 let greedy_diapo pictures n = (* algo en O(n^4)*)
   let used = Array.make n false in (*tableau des images déjà utilisé*)
@@ -192,5 +154,46 @@ let display_res res n =
       print_int (snd res.(i));
       print_newline();)
     done;;
+    
 
-display_res (fst res) (snd res);
+(*fonctions de test *)
+
+let picture1 = create_picture 1 true ["cat";"dog";"selfi";"garden";"tomato"];;
+let picture2 = create_picture 2 true ["selfi";"garden";"horse";"computer"];;
+let picture3 = create_picture 3 false ["selfi";"garden";"horse";"computer"];;
+let picture4 = create_picture 4 false ["sport";"flower";"horse";"food"];;
+let picture5 = create_picture 5 false ["desk";"sun";"horse";"nature"];;
+let picture6 = create_picture 6 false ["sun";"garden";"food";"computer"];;
+let empty_picture = create_picture (-1) false [];; (*image vide pour mettre avec une image horizontale
+   ou avec une ilage verticale seul dans une slide*)
+
+
+let slide1 =
+  {
+    content = (picture1, empty_picture);
+    h = true;
+  };;
+
+let slide2 =
+  {
+    content = (picture2, empty_picture);
+    h = true;
+  };;
+
+let slide3 =
+  {
+    content = (picture3, picture4);
+    h = false;
+  };;
+
+let slide4 =
+  {
+    content = (picture5,picture6);
+    h = false;
+  };;
+
+let test = [|picture1;picture2;picture3;picture4;picture5;picture6|];;
+
+let res = greedy_diapo test 6;;
+
+display_res (fst res) (snd res);;
