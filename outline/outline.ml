@@ -1,3 +1,4 @@
+(*Quelques fonctions de bases*)
 type picture = {
   id : int;
   h : bool;
@@ -137,7 +138,6 @@ let score diaporama =
       score_aux (q :: suite) (score + (min3 overall))
   in score_aux diaporama 0
 ;;
-  
   
   
   
