@@ -1,0 +1,9 @@
+8
+H 1 a
+H 2 a b
+H 2 c d
+H 7 a d e f b h g
+H 6 f a l m d c
+H 3 l d g
+H 4 x b m f
+H 5 y x c d h
