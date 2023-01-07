@@ -105,7 +105,12 @@ let semi_force_brut pic_tab verbose accuracy =
   !res
 ;;
     
-
+let all_horizontal table =
+  (**picture array -> bool **)
+  Array.fold_left (fun acc pic -> (acc && (not pic.Outline.h))) true table
+;;
+  
+  
 let algorithme unit =
   (** 'a -> unit **)
   (** Lit sur l'entree standard les differentes options **)
@@ -118,9 +123,14 @@ let algorithme unit =
   let file_in = Sys.argv.(if verbose then 3 else 2) in
   let file_out = Sys.argv.(if verbose then 4 else 3) in
   let pic_tab = Outline.read_entry file_in in
-  let diapo_res = semi_force_brut pic_tab verbose accuracy in
-  Printf.printf "Score : %d\n" (Outline.score diapo_res);
-  Outline.write_output diapo_res file_out
+  if not (all_horizontal pic_tab) then
+    failwith "Cette algorithme ne peut lire que des entrees contenant uniquement des images horizontales\n"
+  else
+    begin
+      let diapo_res = semi_force_brut pic_tab verbose accuracy in
+      Printf.printf "Score : %d\n" (Outline.score diapo_res);
+      Outline.write_output diapo_res file_out
+    end
 ;;
 
 algorithme ();;
