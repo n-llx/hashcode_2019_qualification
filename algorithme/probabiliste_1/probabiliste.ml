@@ -102,11 +102,16 @@ let algo_probabiliste pict_tab borne file =
 
 
 let final () =
-  let file_in = Sys.argv.(2) in
-  let file_out = Sys.argv.(3) in
-  let picture_tab_lecture = Outline.read_entry file_in in
-  let borne = int_of_string (Sys.argv.(1)) in
-  algo_probabiliste picture_tab_lecture borne file_out;
+  if Sys.argv.(1) = "-h" then
+    Printf.printf "./executable <borne> <fichier_source> <fichier_sortie>\n"
+  else
+    begin
+      let file_in = Sys.argv.(2) in
+      let file_out = Sys.argv.(3) in
+      let picture_tab_lecture = Outline.read_entry file_in in
+      let borne = int_of_string (Sys.argv.(1)) in
+      algo_probabiliste picture_tab_lecture borne file_out;
+    end
 ;;
 
 final ();;
