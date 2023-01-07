@@ -14,4 +14,5 @@ type diapo = slide list
 val read_entry : string -> picture array;;
 val display_information : picture array -> unit;;
 val write_output : diapo -> string -> unit;;
+val score_slide : slide -> slide -> int;;
 val score : diapo -> int;;

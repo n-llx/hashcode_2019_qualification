@@ -96,8 +96,7 @@ let thd (_,_,a) = a;;
 let incr_fst ref_triple = let a,b,c = !ref_triple in ref_triple.contents <- (a+1,b,c);;
 let incr_snd ref_triple = let a,b,c = !ref_triple in ref_triple.contents <- (a,b+1,c);;
 let incr_thd ref_triple = let a,b,c = !ref_triple in ref_triple.contents <- (a,b,c+1);;
-
-
+ 
 let card_intersect ht1 ht2 =
   let count = ref (0,0,0) in
   Hashtbl.iter (fun x y -> if Hashtbl.mem ht2 x then incr_snd count else incr_fst count) ht1;
@@ -114,17 +113,10 @@ let union ht1 ht2 =
   Hashtbl.iter (fun x y -> if Hashtbl.mem res x then () else Hashtbl.add res x y) ht2;
   res
 ;;
-  
 
-let score diaporama =
-  let rec score_aux diaporama score =
-    match diaporama with
-    | [] -> score
-    | [elt] -> score
-    | t :: q :: suite ->
-      (*Renvoie les deux hashtbl des tags de chacune des diapos*)
-      let t_tags,q_tags =
-        match t,q with
+let score_slide s1 s2 =
+  let t_tags,q_tags =
+        match s1,s2 with
         | Horizontal(pic1),Horizontal(pic2) ->
           pic1.tags, pic2.tags
         | Horizontal(pic1), Vertical(pic2,pic3) ->
@@ -135,11 +127,16 @@ let score diaporama =
           (union pic1.tags pic2.tags), (union pic3.tags pic4.tags)
       in
       let overall = card_intersect t_tags q_tags in
-      score_aux (q :: suite) (score + (min3 overall))
-  in score_aux diaporama 0
+      min3 overall
 ;;
   
-  
-  
-  
 
+let score diaporama =
+  let rec score_aux diaporama score =
+    match diaporama with
+    | [] -> score
+    | [elt] -> score
+    | t :: q :: suite ->
+       score_aux (q :: suite) (score + (score_slide t q))
+  in score_aux diaporama 0
+;;
