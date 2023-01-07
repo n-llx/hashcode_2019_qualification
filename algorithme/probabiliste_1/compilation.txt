@@ -1,5 +1,5 @@
 ocamlc -c ../../outline/outline.mli
-ocamlc -c ../../outline/outline.ml
+ocamlc -I ../../outline -c ../../outline/outline.ml
 ocamlc -I ../../outline -c probabiliste.ml
 ocamlc -I ../../outline outline.cmo probabiliste.cmo -o probabiliste.exe
 exemple d'utilisation :
